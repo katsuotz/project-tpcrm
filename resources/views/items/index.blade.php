@@ -2,11 +2,11 @@
     <x-slot name="header">
         <div class="flex justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Warehouse') }}
+                {{ __('Item') }} - {{ $warehouse->name }}
             </h2>
-            <a href="{{ route('warehouses.create') }}">
+            <a href="{{ route('items.create', $warehouse) }}">
                 <x-primary-button>
-                    + {{ __('New Warehouse') }}
+                    + {{ __('New Item') }}
                 </x-primary-button>
             </a>
         </div>
@@ -20,37 +20,43 @@
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                         <tr>
                             <th scope="col" class="px-6 py-3" style="width: 50px">#</th>
-                            <th scope="col" class="px-6 py-3">Warehouse Name</th>
-                            <th scope="col" class="px-6 py-3">City</th>
+                            <th scope="col" class="px-6 py-3" style="width: 150px;">Image</th>
+                            <th scope="col" class="px-6 py-3">Name</th>
+                            <th scope="col" class="px-6 py-3">Category</th>
+                            <th scope="col" class="px-6 py-3">Stock</th>
                             <th scope="col" class="px-6 py-3" style="width: 220px">Action</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @if($warehouses->count())
-                            @foreach($warehouses as $key => $warehouse)
+                        @if($items->count())
+                            @foreach($items as $key => $item)
                                 <tr class="bg-white border-b">
                                     <th scope="row" class="px-6 py-4">
                                         {{ $key + 1 }}
                                     </th>
                                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                        {{ $warehouse->name }}
+                                        @if($item->image)
+                                            <img src="{{ asset('storage/' . $item->image) }}" alt="" class="h-[100px] w-[100px] object-cover">
+                                        @endif
                                     </td>
                                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                        {{ $warehouse->city }}
+                                        {{ $item->name }}
+                                    </td>
+                                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                        {{ $item->category->name }}
+                                    </td>
+                                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                        {{ $item->stock }}
+                                        {{ $item->unit }}
                                     </td>
                                     <td class="px-6 py-4">
                                         <div class="flex gap-2">
-                                            <a href="{{ route('items.index', $warehouse) }}">
-                                                <x-primary-button>
-                                                    {{ __('Items') }}
-                                                </x-primary-button>
-                                            </a>
-                                            <a href="{{ route('warehouses.edit', $warehouse) }}">
+                                            <a href="{{ route('items.edit', ['warehouse' => $warehouse, 'item' => $item]) }}">
                                                 <x-warning-button>
                                                     {{ __('Edit') }}
                                                 </x-warning-button>
                                             </a>
-                                            <form method="post" action="{{ route('warehouses.destroy', $warehouse) }}">
+                                            <form method="post" action="{{ route('items.destroy', ['warehouse' => $warehouse, 'item' => $item]) }}">
                                                 @csrf
                                                 @method('delete')
                                                 <x-danger-button>
@@ -63,7 +69,7 @@
                             @endforeach
                         @else
                             <tr class="bg-white border-b">
-                                <th colspan="3" scope="row" class="px-6 py-4 text-center">
+                                <th colspan="4" scope="row" class="px-6 py-4 text-center">
                                     No Data
                                 </th>
                             </tr>

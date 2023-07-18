@@ -37,9 +37,9 @@
                                     <td class="px-6 py-4">
                                         <div class="flex gap-2">
                                             <a href="{{ route('categories.edit', $category) }}">
-                                                <x-primary-button>
+                                                <x-warning-button>
                                                     {{ __('Edit') }}
-                                                </x-primary-button>
+                                                </x-warning-button>
                                             </a>
                                             <form method="post" action="{{ route('categories.destroy', $category) }}">
                                                 @csrf
