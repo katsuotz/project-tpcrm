@@ -13,7 +13,9 @@ class WarehouseController extends Controller
      */
     public function index()
     {
-        //
+        return view('warehouses.index', [
+            'warehouses' => Warehouse::orderBy('name')->get(),
+        ]);
     }
 
     /**
@@ -21,7 +23,7 @@ class WarehouseController extends Controller
      */
     public function create()
     {
-        //
+        return view('warehouses.form');
     }
 
     /**
@@ -29,7 +31,12 @@ class WarehouseController extends Controller
      */
     public function store(StoreWarehouseRequest $request)
     {
-        //
+        Warehouse::create([
+            'name' => $request->name,
+            'city' => $request->city,
+        ]);
+
+        return redirect()->route('warehouses.index')->with('success', 'Warehouse Created');
     }
 
     /**
@@ -45,7 +52,9 @@ class WarehouseController extends Controller
      */
     public function edit(Warehouse $warehouse)
     {
-        //
+        return view('warehouses.form', [
+            'warehouse' => $warehouse,
+        ]);
     }
 
     /**
@@ -53,7 +62,12 @@ class WarehouseController extends Controller
      */
     public function update(UpdateWarehouseRequest $request, Warehouse $warehouse)
     {
-        //
+        $warehouse->update([
+            'name' => $request->name,
+            'city' => $request->city,
+        ]);
+
+        return redirect()->route('warehouses.index')->with('success', 'Warehouse Updated');
     }
 
     /**
@@ -61,6 +75,7 @@ class WarehouseController extends Controller
      */
     public function destroy(Warehouse $warehouse)
     {
-        //
+        $warehouse->delete();
+        return redirect()->route('warehouses.index')->with('success', 'Warehouse Deleted');
     }
 }
