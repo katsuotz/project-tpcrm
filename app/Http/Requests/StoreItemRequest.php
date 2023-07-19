@@ -25,7 +25,7 @@ class StoreItemRequest extends FormRequest
         return [
             'name' => 'required',
             'category' => 'required',
-            'image' => 'image|size:512',
+            'image' => 'image|max:512',
         ];
     }
 }

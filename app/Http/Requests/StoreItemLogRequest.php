@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StoreItemLogRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class StoreItemLogRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return Auth::check();
     }
 
     /**
@@ -22,7 +23,10 @@ class StoreItemLogRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'qty' => 'required|numeric',
+            'type' => 'required',
+            'image' => 'image|max:512',
+            'price' => 'numeric',
         ];
     }
 }

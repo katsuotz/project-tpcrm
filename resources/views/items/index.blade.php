@@ -14,7 +14,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <table class="w-full text-sm text-left text-gray-500">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
@@ -24,6 +24,8 @@
                             <th scope="col" class="px-6 py-3">Name</th>
                             <th scope="col" class="px-6 py-3">Category</th>
                             <th scope="col" class="px-6 py-3">Stock</th>
+                            <th scope="col" class="px-6 py-3">Expenses</th>
+                            <th scope="col" class="px-6 py-3">Income</th>
                             <th scope="col" class="px-6 py-3" style="width: 220px">Action</th>
                         </tr>
                         </thead>
@@ -36,7 +38,8 @@
                                     </th>
                                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                         @if($item->image)
-                                            <img src="{{ asset('storage/' . $item->image) }}" alt="" class="h-[100px] w-[100px] object-cover">
+                                            <img src="{{ asset('storage/' . $item->image) }}" alt=""
+                                                 class="h-[100px] w-[100px] object-cover">
                                         @endif
                                     </td>
                                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
@@ -49,20 +52,51 @@
                                         {{ $item->stock }}
                                         {{ $item->unit }}
                                     </td>
+                                    <td class="px-6 py-4 font-bold text-red-500 whitespace-nowrap">
+                                        {{ number_format($item->expenses, 2) }}
+                                    </td>
+                                    <td class="px-6 py-4 font-bold text-green-500 whitespace-nowrap">
+                                        {{ number_format($item->income, 2) }}
+                                    </td>
                                     <td class="px-6 py-4">
                                         <div class="flex gap-2">
-                                            <a href="{{ route('items.edit', ['warehouse' => $warehouse, 'item' => $item]) }}">
-                                                <x-warning-button>
-                                                    {{ __('Edit') }}
-                                                </x-warning-button>
+                                            <a href="{{ route('item_logs.add', ['warehouse' => $warehouse, 'item' => $item]) }}">
+                                                <x-success-button class="whitespace-nowrap">
+                                                    {{ __('+') }}
+                                                </x-success-button>
                                             </a>
-                                            <form method="post" action="{{ route('items.destroy', ['warehouse' => $warehouse, 'item' => $item]) }}">
-                                                @csrf
-                                                @method('delete')
-                                                <x-danger-button>
-                                                    {{ __('Delete') }}
+                                            <a href="{{ route('item_logs.remove', ['warehouse' => $warehouse, 'item' => $item]) }}">
+                                                <x-danger-button class="whitespace-nowrap">
+                                                    {{ __('-') }}
                                                 </x-danger-button>
-                                            </form>
+                                            </a>
+
+                                            <x-dropdown align="right" width="48">
+                                                <x-slot name="trigger">
+                                                    <x-secondary-button>
+                                                        ...
+                                                    </x-secondary-button>
+                                                </x-slot>
+
+                                                <x-slot name="content">
+                                                    <x-dropdown-link :href="route('items.show', ['warehouse' => $warehouse, 'item' => $item])">
+                                                        {{ __('Detail') }}
+                                                    </x-dropdown-link>
+
+                                                    <x-dropdown-link :href="route('items.edit', ['warehouse' => $warehouse, 'item' => $item])">
+                                                        {{ __('Edit') }}
+                                                    </x-dropdown-link>
+
+                                                    <form method="post" action="{{ route('items.destroy', ['warehouse' => $warehouse, 'item' => $item]) }}">
+                                                        @csrf
+                                                        @method('delete')
+
+                                                        <x-dropdown-link :href="route('items.destroy', ['warehouse' => $warehouse, 'item' => $item])" onclick="event.preventDefault();this.closest('form').submit();">
+                                                            {{ __('Delete') }}
+                                                        </x-dropdown-link>
+                                                    </form>
+                                                </x-slot>
+                                            </x-dropdown>
                                         </div>
                                     </td>
                                 </tr>

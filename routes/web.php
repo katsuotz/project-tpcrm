@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\ItemLogController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,7 +32,19 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('/warehouses/{warehouse}')->group(function () {
         Route::resource('/items', ItemController::class);
+
+        Route::prefix('/items/{item}')->group(function () {
+            Route::resource('/', ItemLogController::class, [
+                'names' => [
+                    'index' => 'item_logs.index',
+                    'store' => 'item_logs.store',
+                    'destroy' => 'item_logs.destroy',
+                ]
+            ])->only(['store', 'destroy']);
+            Route::get('add', [ItemLogController::class, 'add'])->name('item_logs.add');
+            Route::get('remove', [ItemLogController::class, 'remove'])->name('item_logs.remove');
+        });
     });
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

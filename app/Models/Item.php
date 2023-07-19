@@ -21,4 +21,9 @@ class Item extends Model
     public function category () {
         return $this->belongsTo(Category::class);
     }
+
+    public function getStockAttribute($stock)
+    {
+        return $this->attributes['stock'] = sprintf('%s', number_format($stock, 2)) + 0;
+    }
 }
