@@ -21,7 +21,7 @@
                     <form method="post" action="{{ @$category ? route('categories.update', $category) : route('categories.store') }}" class="space-y-6">
                         @csrf
                         @if(@$category)
-                            @method('PUT')
+                            @method('put')
                         @endif
 
                         <div>

@@ -21,7 +21,7 @@
                     <form method="post" action="{{ @$item ? route('items.update', ['warehouse' => $warehouse, 'item' => $item]) : route('items.store', $warehouse) }}" enctype="multipart/form-data" class="space-y-6">
                         @csrf
                         @if(@$item)
-                            @method('PUT')
+                            @method('put')
                         @endif
 
                         <div>
