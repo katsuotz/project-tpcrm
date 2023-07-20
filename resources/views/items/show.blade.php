@@ -46,7 +46,7 @@
                                 <div class="text-sm font-semibold text-gray-500">
                                     Total Expenses: <span class="text-red-500">{{ number_format($item->expenses, 2) }}</span>
                                 </div>
-                                <div class="text-sm font-semibold text-gray-500 text-right">
+                                <div class="font-semibold text-gray-500 text-right">
                                     Cash Flow: <span class="{{ $item->cash_flow > 0 ? 'text-green-500' : 'text-red-500' }}">{{ number_format($item->cash_flow, 2) }}</span>
                                 </div>
                             </div>
