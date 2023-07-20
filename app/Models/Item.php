@@ -29,4 +29,9 @@ class Item extends Model
     {
         return asset('storage/' . $this->attributes['image']);
     }
+
+    public function getCashFlowAttribute()
+    {
+        return $this->attributes['income'] - $this->attributes['expenses'];
+    }
 }

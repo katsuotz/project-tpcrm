@@ -92,7 +92,7 @@ class ItemLogController extends Controller
 
             DB::commit();
 
-            return redirect()->route('items.index', $warehouse)->with('success', 'Stock Successfully Updated');
+            return redirect()->route('items.show', ['warehouse' => $warehouse, 'item' => $item])->with('success', 'Stock Successfully Updated');
         } catch (\Exception $exception) {
             DB::rollBack();
             return redirect()->back()->withInput()->with('success', 'Failed to Update Stock');
@@ -193,7 +193,7 @@ class ItemLogController extends Controller
 
             DB::commit();
 
-            return redirect()->route('items.index', $warehouse)->with('success', 'Stock Successfully Updated');
+            return redirect()->route('items.show', ['warehouse' => $warehouse, 'item' => $item])->with('success', 'Stock Successfully Updated');
         } catch (\Exception $exception) {
             DB::rollBack();
             return redirect()->back()->withInput()->with('success', 'Failed to Update Stock');

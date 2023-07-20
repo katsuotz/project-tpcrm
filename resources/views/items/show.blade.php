@@ -46,6 +46,9 @@
                                 <div class="text-sm font-semibold text-gray-500">
                                     Total Expenses: <span class="text-red-500">{{ number_format($item->expenses, 2) }}</span>
                                 </div>
+                                <div class="text-sm font-semibold text-gray-500 text-right">
+                                    Cash Flow: <span class="{{ $item->cash_flow > 0 ? 'text-green-500' : 'text-red-500' }}">{{ number_format($item->cash_flow, 2) }}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -61,7 +64,7 @@
                             <th scope="col" class="px-6 py-3">Type</th>
                             <th scope="col" class="px-6 py-3">Qty</th>
                             <th scope="col" class="px-6 py-3">Price</th>
-                            <th scope="col" class="px-6 py-3">Total Price</th>
+                            <th scope="col" class="px-6 py-3">Income/Expenses</th>
                             <th scope="col" class="px-6 py-3">Time</th>
                             <th scope="col" class="px-6 py-3" style="width: 220px">Action</th>
                         </tr>
@@ -92,7 +95,7 @@
                                     </td>
                                     <td class="px-6 py-4 font-bold text-gray-900 whitespace-nowrap">
                                         @if($log->price)
-                                        {{ number_format($log->price * $log->qty, 2) }}
+                                            {{ $log->type == 'add' ? '-' : '+' }}{{ number_format($log->price * $log->qty, 2) }}
                                             <div class=" {{ $log->type == 'remove' ? 'text-green-500' : 'text-red-500' }}">
                                                 ({{ $log->type == 'add' ? 'Expenses' : 'Income' }})
                                             </div>
