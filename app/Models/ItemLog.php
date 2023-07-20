@@ -16,4 +16,14 @@ class ItemLog extends Model
         'type',
         'image',
     ];
+
+    public function getImageUrlAttribute()
+    {
+        return asset('storage/' . $this->attributes['image']);
+    }
+
+    public function getTypeLabelAttribute()
+    {
+        return $this->attributes['type'] == 'add' ? 'Buy / Add Stock' : 'Sell / Remove Stock';
+    }
 }

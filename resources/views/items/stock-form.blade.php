@@ -2,6 +2,9 @@
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ $item->name }} - {{ $warehouse->name }}
+            @if(@$log)
+                - {{ $log->created_at->format('d F Y, H:i') }}
+            @endif
         </h2>
     </x-slot>
 
@@ -15,19 +18,22 @@
                         </h2>
                     </header>
 
-                    <form method="post" action="{{ route('item_logs.store', ['warehouse' => $warehouse, 'item' => $item]) }}" enctype="multipart/form-data" class="space-y-6">
+                    <form method="post" action="{{ @$log ? route('logs.update', ['warehouse' => $warehouse, 'item' => $item, 'log' => $log]) : route('logs.store', ['warehouse' => $warehouse, 'item' => $item]) }}" enctype="multipart/form-data" class="space-y-6">
                         @csrf
+                        @if(@$log)
+                            @method('put')
+                        @endif
                         <input type="hidden" name="type" value="{{ $type }}">
 
                         <div>
                             <x-input-label for="qty" :value="__('Quantity ' . ($item->unit ?'(' . $item->unit . ')' : ''))" />
-                            <x-text-input id="qty" name="qty" type="number" class="mt-1 block w-full" value="{{ old('qty') }}"/>
+                            <x-text-input id="qty" name="qty" type="number" class="mt-1 block w-full" value="{{ old('qty', @$log->qty) }}"/>
                             <x-input-error :messages="$errors->get('qty')" class="mt-2" />
                         </div>
 
                         <div>
                             <x-input-label for="price" :value="__('Price (Optional)')" />
-                            <x-text-input id="price" name="price" type="number" class="mt-1 block w-full" value="{{ old('price') }}"/>
+                            <x-text-input id="price" name="price" type="number" class="mt-1 block w-full" value="{{ old('price', @$log->price) }}"/>
                             <x-input-error :messages="$errors->get('price')" class="mt-2" />
                         </div>
 

@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Item;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateItemRequest;
+use App\Models\ItemLog;
 use App\Models\Warehouse;
 
 class ItemController extends Controller
@@ -17,12 +18,7 @@ class ItemController extends Controller
     {
         return view('items.index', [
             'warehouse' => $warehouse,
-            'items' => Item::where('warehouse_id', $warehouse->id)
-                ->selectRaw('items.*,
-                        (SELECT sum(price) FROM item_logs WHERE item_id = items.id and type = "add") as expenses,
-                        (SELECT sum(price) FROM item_logs WHERE item_id = items.id and type = "remove") as income
-            ')
-                ->with('category')->orderBy('name')->get(),
+            'items' => Item::where('warehouse_id', $warehouse->id)->with('category')->orderBy('name')->get(),
         ]);
     }
 
@@ -69,8 +65,11 @@ class ItemController extends Controller
      */
     public function show(Warehouse $warehouse, Item $item)
     {
-        dd($item);
-        //
+        return view('items.show', [
+            'warehouse' => $warehouse,
+            'item' => $item,
+            'logs' => ItemLog::where('item_id', $item->id)->orderBy('created_at', 'desc')->get(),
+        ]);
     }
 
     /**

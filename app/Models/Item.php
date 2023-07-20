@@ -13,17 +13,20 @@ class Item extends Model
         'name',
         'stock',
         'unit',
+        'income',
+        'expenses',
         'warehouse_id',
         'category_id',
         'image',
     ];
 
-    public function category () {
+    public function category()
+    {
         return $this->belongsTo(Category::class);
     }
 
-    public function getStockAttribute($stock)
+    public function getImageUrlAttribute()
     {
-        return $this->attributes['stock'] = sprintf('%s', number_format($stock, 2)) + 0;
+        return asset('storage/' . $this->attributes['image']);
     }
 }

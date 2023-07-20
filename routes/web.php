@@ -34,15 +34,10 @@ Route::middleware('auth')->group(function () {
         Route::resource('/items', ItemController::class);
 
         Route::prefix('/items/{item}')->group(function () {
-            Route::resource('/', ItemLogController::class, [
-                'names' => [
-                    'index' => 'item_logs.index',
-                    'store' => 'item_logs.store',
-                    'destroy' => 'item_logs.destroy',
-                ]
-            ])->only(['store', 'destroy']);
-            Route::get('add', [ItemLogController::class, 'add'])->name('item_logs.add');
-            Route::get('remove', [ItemLogController::class, 'remove'])->name('item_logs.remove');
+            Route::post('/store', [ItemLogController::class, 'store'])->name('logs.store');
+            Route::get('/add', [ItemLogController::class, 'add'])->name('logs.add');
+            Route::get('/remove', [ItemLogController::class, 'remove'])->name('logs.remove');
+            Route::resource('/logs', ItemLogController::class);
         });
     });
 });
