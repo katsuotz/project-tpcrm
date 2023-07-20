@@ -63,7 +63,7 @@
                             @endforeach
                         @else
                             <tr class="bg-white border-b">
-                                <th colspan="3" scope="row" class="px-6 py-4 text-center">
+                                <th colspan="4" scope="row" class="px-6 py-4 text-center">
                                     No Data
                                 </th>
                             </tr>

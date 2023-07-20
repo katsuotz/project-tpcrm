@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Item') }} - {{ $warehouse->name }}
+                {{ $warehouse->name }}
             </h2>
             <a href="{{ route('items.create', $warehouse) }}">
                 <x-primary-button>
@@ -38,7 +38,7 @@
                                     </th>
                                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                         @if($item->image)
-                                            <img src="{{ asset('storage/' . $item->image) }}" alt=""
+                                            <img src="{{ $item->image_url }}" alt=""
                                                  class="h-[100px] w-[100px] object-cover">
                                         @endif
                                     </td>
@@ -60,12 +60,12 @@
                                     </td>
                                     <td class="px-6 py-4">
                                         <div class="flex gap-2">
-                                            <a href="{{ route('item_logs.add', ['warehouse' => $warehouse, 'item' => $item]) }}">
+                                            <a href="{{ route('logs.add', ['warehouse' => $warehouse, 'item' => $item]) }}">
                                                 <x-success-button class="whitespace-nowrap">
                                                     {{ __('+') }}
                                                 </x-success-button>
                                             </a>
-                                            <a href="{{ route('item_logs.remove', ['warehouse' => $warehouse, 'item' => $item]) }}">
+                                            <a href="{{ route('logs.remove', ['warehouse' => $warehouse, 'item' => $item]) }}">
                                                 <x-danger-button class="whitespace-nowrap">
                                                     {{ __('-') }}
                                                 </x-danger-button>
@@ -103,7 +103,7 @@
                             @endforeach
                         @else
                             <tr class="bg-white border-b">
-                                <th colspan="4" scope="row" class="px-6 py-4 text-center">
+                                <th colspan="8" scope="row" class="px-6 py-4 text-center">
                                     No Data
                                 </th>
                             </tr>
