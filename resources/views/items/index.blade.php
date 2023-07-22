@@ -14,6 +14,15 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <form action="" class="flex justify-between mb-4" id="form-search">
+                <x-select-input id="category" class="w-[200px]" name="category">
+                    <option value="">All Categories</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}" {{ $category_id == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                    @endforeach
+                </x-select-input>
+                <x-text-input id="search" class="w-[200px]" type="text" name="search" placeholder="Search..." value="{{ $search }}"/>
+            </form>
             <div class="bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <table class="w-full text-sm text-left text-gray-500">
@@ -114,4 +123,15 @@
             </div>
         </div>
     </div>
+
+    <x-slot name="footer">
+        <script>
+            const category = document.querySelector('#category')
+            const form = document.querySelector('#form-search')
+
+            category.onchange = function () {
+                form.submit()
+            }
+        </script>
+    </x-slot>
 </x-app-layout>

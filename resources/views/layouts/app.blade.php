@@ -31,6 +31,11 @@
             <main>
                 {{ $slot }}
             </main>
+
+            <!-- Page Heading -->
+            @if (isset($footer))
+                {{ $footer }}
+            @endif
         </div>
     </body>
 </html>

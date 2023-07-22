@@ -8,17 +8,32 @@ use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateItemRequest;
 use App\Models\ItemLog;
 use App\Models\Warehouse;
+use Illuminate\Http\Request;
 
 class ItemController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Warehouse $warehouse)
+    public function index(Request $request, Warehouse $warehouse)
     {
+        $search = $request->search;
+        $category = $request->category;
+
+        $items = Item::where('warehouse_id', $warehouse->id);
+
+        if ($search)
+            $items->where('name', 'like', '%' . $search . '%');
+
+        if ($category)
+            $items->where('category_id', $category);
+
         return view('items.index', [
             'warehouse' => $warehouse,
-            'items' => Item::where('warehouse_id', $warehouse->id)->with('category')->orderBy('name')->get(),
+            'items' => $items->with('category')->orderBy('name')->get(),
+            'search' => $search,
+            'categories' => Category::orderBy('name')->get(),
+            'category_id' => $category,
         ]);
     }
 
