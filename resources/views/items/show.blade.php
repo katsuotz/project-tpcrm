@@ -54,6 +54,13 @@
                     </div>
                 </div>
             </div>
+
+            <div class="flex justify-end">
+                <a href="{{ route('items.export', ['warehouse' => $warehouse, 'item' => $item]) }}" target="_blank">
+                    <x-primary-button>Export</x-primary-button>
+                </a>
+            </div>
+
             <div class="bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <table class="w-full text-sm text-left text-gray-500">

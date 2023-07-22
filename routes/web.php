@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/add', [ItemLogController::class, 'add'])->name('logs.add');
             Route::get('/remove', [ItemLogController::class, 'remove'])->name('logs.remove');
             Route::resource('/logs', ItemLogController::class);
+            Route::get('/export', [ItemController::class, 'export'])->name('items.export');
         });
     });
 });

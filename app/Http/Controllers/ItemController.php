@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ItemLogExport;
 use App\Models\Category;
 use App\Models\Item;
 use App\Http\Requests\StoreItemRequest;
@@ -132,5 +133,11 @@ class ItemController extends Controller
     {
         $item->delete();
         return redirect()->route('items.index', $warehouse)->with('success', 'Item Deleted');
+    }
+
+    public function export(Warehouse $warehouse, Item $item)
+    {
+        $filename = $warehouse->name . '-' . $item->name . '-' . now()->toDateTimeString()  . '.xlsx';
+        return (new ItemLogExport)->forItem($item->id)->download($filename);
     }
 }
